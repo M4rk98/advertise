@@ -25,7 +25,7 @@ class Table extends React.Component {
         .then((willDelete) => {
             if (willDelete) {
                 // ajax to delete
-                fetch("http://gentle-beyond-76280.herokuapp.com/affiliates/" + target, {
+                fetch("https://gentle-beyond-76280.herokuapp.com/affiliates/" + target, {
                     headers: {
                         'id': localStorage.getItem('id'),
                     }

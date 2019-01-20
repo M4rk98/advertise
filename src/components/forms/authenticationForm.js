@@ -24,7 +24,7 @@ class AffiliateForm extends React.Component {
     };
 
     handleSubmit = (e) => {
-        fetch("http://gentle-beyond-76280.herokuapp.com/login", {
+        fetch("https://gentle-beyond-76280.herokuapp.com/login", {
             method: "POST",
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({
@@ -37,7 +37,7 @@ class AffiliateForm extends React.Component {
 
             localStorage.setItem("id", resp.key);
 
-            fetch("http://gentle-beyond-76280.herokuapp.com/affiliates/", {
+            fetch("https://gentle-beyond-76280.herokuapp.com/affiliates/", {
                 headers: {
                     id: localStorage.getItem('id'),
                 }

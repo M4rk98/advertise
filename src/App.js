@@ -39,7 +39,7 @@ class App extends Component {
   };
 
   refreshAffiliates = () => {
-      fetch("http://gentle-beyond-76280.herokuapp.com/affiliates/", {
+      fetch("https://gentle-beyond-76280.herokuapp.com/affiliates/", {
           headers: {
               id: localStorage.getItem('id'),
           }
