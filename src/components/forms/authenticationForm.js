@@ -15,18 +15,16 @@ class AffiliateForm extends React.Component {
             submitted: false,
         };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const { formData } = this.state;
         formData[event.target.name] = event.target.value;
         this.setState({ formData });
-    }
+    };
 
     handleSubmit = (e) => {
-        fetch("http://localhost:3000/login", {
+        fetch("http://gentle-beyond-76280.herokuapp.com/login", {
             method: "POST",
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({
@@ -34,23 +32,29 @@ class AffiliateForm extends React.Component {
             })
 
         })
-            .then((resp) => resp.json())
+        .then((resp) => resp.json())
         .then((resp) =>{
-            console.log(resp);
 
-            console.log(resp.key);
             localStorage.setItem("id", resp.key);
 
-            swal("Good job!", "You logged in!", "success").then(() => {
+            fetch("http://gentle-beyond-76280.herokuapp.com/affiliates/", {
+                headers: {
+                    id: localStorage.getItem('id'),
+                }
+            })
+            .then((resp) => resp.json())
+            .then((resp) => {
+                if(resp.failed != null) {
+                    swal("Oh no!", "Wrong API key!", "error");
+                } else {
+                    swal("Good job!", "You logged in!", "success").then(() => {
+                        this.props.methods.refreshAffiliates();
+                    })
 
-                this.props.methods.changeLoggedIn();
+                }
+            })
 
-            });
-
-        }).catch((error) => {
-            console.log(error);
-        });
-        //this.props.methods.changeLoggedIn();
+        })
     };
 
     render() {
@@ -60,7 +64,8 @@ class AffiliateForm extends React.Component {
                 ref="form"
                 onSubmit={this.handleSubmit}
             >
-                <h2>API form</h2>
+                <h2>API Key authentication</h2>
+                <h4 className="fw2">Please give us your API key</h4>
                 <TextValidator
                     className="w-60"
                     label="Api key"
@@ -87,17 +92,3 @@ class AffiliateForm extends React.Component {
 }
 
 export default AffiliateForm;
-
-/*
-
-{
-  "firstname": "John323",
-  "lastname": "Doe",
-  "email": "John.Doeweq2012e@tapfiliate.com",
-  "password": "password1234",
-  "company": {
-    "name": "Tapfiliate"
-  }
-}
-
- */

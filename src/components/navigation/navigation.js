@@ -1,16 +1,25 @@
 import React from 'react';
-import PeopleIcon from '@material-ui/icons/People';
 
 const Navigation = (props) => {
     return (
-        <div>
-            <div className="flex flex-column near-white">
-                <div className=" w-100 pa3 mr2">
-                    <PeopleIcon />
-                    <div className="pt2">Affiliates</div>
+        <header className="bg-dark-gray fixed w-100 ph3 pv3 pv4-ns ph4-m ph5-l">
+            <nav className="f6 fw6 tl ttu tracked">
+                <a className="link dim white dib tl mr3" href="#" title="Home">Affiliates</a>
+                <div className="fr">
+                    {
+                        (props.isLoggedIn) ?
+                         (
+                            <button onClick={props.methods.changeLoggedIn} className="br3 b--transparent dim link ph3 white bg-red">
+                            Logout
+                            </button>
+
+                        ) : ""
+                    }
+
+
                 </div>
-            </div>
-        </div>
+            </nav>
+        </header>
 
     );
 };

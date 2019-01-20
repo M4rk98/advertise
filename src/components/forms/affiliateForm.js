@@ -19,30 +19,18 @@ class AffiliateForm extends React.Component {
             submitted: false,
         };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const { formData } = this.state;
         formData[event.target.name] = event.target.value;
         this.setState({ formData });
-    }
+    };
 
     handleSubmit = (e) => {
         this.setState({ submitted: true }, () => {
             setTimeout(() => this.setState({ submitted: false }), 5000);
         });
-
-        console.log(JSON.stringify({
-            email: this.state.formData.email,
-            firstname: this.state.formData.firstname,
-            lastname: this.state.formData.lastname,
-            password: this.state.formData.password,
-            company: {
-                name: this.state.formData.company
-            }
-        }));
 
         const data = {
             'email': this.state.formData.email,
@@ -53,25 +41,26 @@ class AffiliateForm extends React.Component {
                 'name': this.state.formData.company
             }};
 
-        const stringified = JSON.stringify(data);
-
-                fetch('http://localhost:3000/affiliates', {
+        fetch('http://gentle-beyond-76280.herokuapp.com/affiliates', {
             method: 'post',
             headers: {
                 'Content-Type':'application/json',
                 'id': localStorage.getItem('id'),
             },
-            body: stringified
-        }).then((data) => {
-
-            swal("Good job!", "Affiliate added!", "success");
-            this.props.methods.refreshAffiliates();
-
-        }).catch((error) => {
-            console.log(error);
+            body: JSON.stringify(data)
         })
+        .then((resp) => resp.json())
+        .then((data) => {
+            if(data.Message != "Success") {
+                const err = JSON.parse(data.Message.split('-')[1]);
+                swal("Oh no!", JSON.parse(err).errors[0].message, "error");
 
-        //this.props.methods.refreshAffiliates();
+            } else {
+                swal("Good job!", "Affiliate added!", "success");
+                this.props.methods.refreshAffiliates();
+            }
+
+        })
     };
 
     render() {
@@ -81,7 +70,7 @@ class AffiliateForm extends React.Component {
                 ref="form"
                 onSubmit={this.handleSubmit}
             >
-                <h2>Simple form</h2>
+                <h2>Add new affiliate</h2>
                 <TextValidator
                     className="w-60"
                     label="First name"
@@ -111,7 +100,8 @@ class AffiliateForm extends React.Component {
                 />
                 <br />
                 <TextValidator
-                    className="w-60 mt5"
+                    className="w-60"
+                    type="password"
                     label="Password"
                     onChange={this.handleChange}
                     name="password"

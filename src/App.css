@@ -30,3 +30,7 @@
     transform: rotate(360deg);
   }
 }
+
+.MuiInputBase-inputType-49 {
+    height: 2em !important;
+}
