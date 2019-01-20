@@ -41,7 +41,7 @@ class AffiliateForm extends React.Component {
                 'name': this.state.formData.company
             }};
 
-        fetch('http://gentle-beyond-76280.herokuapp.com/affiliates', {
+        fetch('https://gentle-beyond-76280.herokuapp.com/affiliates', {
             method: 'post',
             headers: {
                 'Content-Type':'application/json',

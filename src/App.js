@@ -31,7 +31,7 @@ class App extends Component {
   changeLoggedIn = () => {
         if(this.state.isLoggedIn) {
             this.setState({isLoggedIn: false});
-            // TODO: DELETE KEY RECORD
+            // TODO: DELETE ID - KEY FROM BACKEND FILE
         } else {
             this.setState({isLoggedIn: true});
 
